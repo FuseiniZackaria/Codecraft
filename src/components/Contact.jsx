@@ -145,7 +145,9 @@ export default function Contact() {
                   name="message"
                   value={form.message}
                   onChange={handleChange}
-                  rows={200}
+                  rows={4}
+                  maxLength={4000}
+
                   placeholder="Briefly describe what you need..."
                   className="w-full border-2 border-slate-200 focus:border-[#f26522] rounded-xl px-4 py-3 text-sm outline-none bg-slate-50 transition-colors resize-none"
                 />

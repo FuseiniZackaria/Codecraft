@@ -55,7 +55,7 @@ export default function Footer() {
             </a>
 
             {/* TikTok */}
-            <a href="https://tiktok.com/@justCodeCraft" target="_blank" rel="noreferrer"
+            <a href="https://www.tiktok.com/@justCodeCraft" target="_blank" rel="noreferrer"
               className="w-10 h-10 bg-white/5 hover:bg-[#f26522] border border-white/10 hover:border-[#f26522] rounded-full flex items-center justify-center text-white/60 hover:text-white transition-all duration-300"
               aria-label="TikTok">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

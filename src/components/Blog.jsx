@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import Reveal from "./Reveal";
 
-export default function Blog() {
+export default function Blog({onPostClick}) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,7 +41,9 @@ export default function Blog() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post, i) => (
             <Reveal key={post.id} delay={i * 80}>
-              <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+              <div
+                onClick={() => onPostClick(post.id)}
+                className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:-translate-y-2 hover:shadow-xl transition-all duration-300 cursor-pointer group">
                 {/* Cover Image */}
                 <div className="h-48 bg-slate-100 overflow-hidden">
                   {post.cover_url ? (
@@ -66,12 +68,18 @@ export default function Blog() {
                       year: "numeric",
                     })}
                   </p>
-                  <h3 className="text-[#0d1f3c] font-bold text-lg mb-3 leading-tight">
+                  <h3 className="text-[#0d1f3c] font-bold text-lg mb-3 leading-tight group-hover:text-[#f26522] transition-colors">
                     {post.title}
                   </h3>
-                  <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
-                    {post.content}
-                  </p>
+                   
+                  <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 mb-4">
+                  {post.content}
+                   </p>
+
+                   <span className="inline-flex items-center gap-1 text-[#f26522] font-bold text-sm group-hover:gap-2 transition-all">
+                     Read More →
+                   </span>
+                    
                 </div>
               </div>
             </Reveal>

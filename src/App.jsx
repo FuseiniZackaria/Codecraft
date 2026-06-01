@@ -1,3 +1,5 @@
+
+import { Routes, Route } from "react-router-dom";
 import LoadingScreen from "./components/LoadingScreen";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -11,15 +13,16 @@ import CTABanner from "./components/CTABanner";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import AdminApp from "./admin/AdminApp";
-import { trackClick } from "./lib/analytics";
 import BlogPost from "./Pages/BlogPost";
-import { useState } from "react";
+import { trackClick } from "./lib/analytics";
+
+
 
 const isAdmin = window.location.pathname.startsWith("/admin");
 
 const WhatsAppButton = () => (
-  <a
-    href="https://wa.me/233202457446"
+  
+   <a href="https://wa.me/233202457446"
     target="_blank"
     rel="noreferrer"
     onClick={() => trackClick("whatsapp_float_btn")}
@@ -33,22 +36,7 @@ const WhatsAppButton = () => (
   </a>
 );
 
-export default function App() {
-  const [selectedPostId, setSelectedPostId] = useState(null);
-
-  if (isAdmin) return <AdminApp />;
-
-  // Show full blog post page
-  if (selectedPostId) {
-    return (
-      <BlogPost
-        postId={selectedPostId}
-        onBack={() => setSelectedPostId(null)}
-      />
-    );
-  }
-
-  // Show main website
+function MainSite() {
   return (
     <div className="font-sans">
       <LoadingScreen />
@@ -60,12 +48,25 @@ export default function App() {
         <WhyUs />
         <Process />
         <Testimonials />
-        <Blog onPostClick={(id) => setSelectedPostId(id)} />
+        <Blog />
         <CTABanner />
         <Contact />
       </main>
       <Footer />
       <WhatsAppButton />
     </div>
+  );
+}
+
+export default function App() {
+  if (window.location.pathname.startsWith("/admin")) {
+    return <AdminApp />;
+  }
+
+  return (
+    <Routes>
+      <Route path="/" element={<MainSite />} />
+      <Route path="/blog/:id" element={<BlogPost />} />
+    </Routes>
   );
 }

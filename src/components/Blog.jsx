@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import Reveal from "./Reveal";
 
-export default function Blog({onPostClick}) {
+export default function Blog() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchPosts() {
@@ -42,15 +44,16 @@ export default function Blog({onPostClick}) {
           {posts.map((post, i) => (
             <Reveal key={post.id} delay={i * 80}>
               <div
-                onClick={() => onPostClick(post.id)}
-                className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:-translate-y-2 hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                onClick={() => navigate(`/blog/${post.id}`)}
+                className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:-translate-y-2 hover:shadow-xl transition-all duration-300 cursor-pointer group"
+              >
                 {/* Cover Image */}
                 <div className="h-48 bg-slate-100 overflow-hidden">
                   {post.cover_url ? (
                     <img
                       src={post.cover_url}
                       alt={post.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-300 text-5xl">
@@ -73,13 +76,11 @@ export default function Blog({onPostClick}) {
                   </h3>
                    
                   <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 mb-4">
-                  {post.content}
-                   </p>
-
-                   <span className="inline-flex items-center gap-1 text-[#f26522] font-bold text-sm group-hover:gap-2 transition-all">
-                     Read More →
-                   </span>
-                    
+                    {post.content}
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-[#f26522] font-bold text-sm group-hover:gap-2 transition-all">
+                    Read More →
+                  </span>
                 </div>
               </div>
             </Reveal>

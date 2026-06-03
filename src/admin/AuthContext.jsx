@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext(null);
 
-const ADMIN_PASSWORD = "KINGIAN1234*";
+const ADMIN_PASSWORD = process.env.REACT_APP_ADMIN_PASSWORD;
 
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(

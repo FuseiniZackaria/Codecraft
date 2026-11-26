@@ -9,7 +9,8 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-line">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div className="px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto h-16 flex items-center justify-between">
         <a href="/" aria-label="CodeCraft GH home">
           <Logo />
         </a>
@@ -40,6 +41,7 @@ export default function Navbar() {
         >
           {menuOpen ? "Close" : "Menu"}
         </button>
+      </div>
       </div>
 
       {menuOpen && (

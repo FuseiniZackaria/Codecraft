@@ -2,14 +2,15 @@ import { useState } from "react";
 import { SERVICES, CONTACT_METHODS } from "../data/constants";
 import { WhatsAppIcon, PhoneIcon } from "./Icons";
 
-const INITIAL_FORM = { name: "", phone: "", service: "", message: "" };
+const emptyForm = (service = "") => ({ name: "", phone: "", service, message: "" });
 
 const fieldClass =
   "w-full border border-line focus:border-navy focus:ring-2 focus:ring-navy/10 rounded-md px-3.5 py-2.5 text-[15px] outline-none bg-white transition-colors";
 const labelClass = "block text-sm font-medium text-navy mb-1.5";
 
-export default function Contact() {
-  const [form, setForm] = useState(INITIAL_FORM);
+// `defaultService` preselects the service (used on the service pages).
+export default function Contact({ defaultService = "", heading = "Tell us about your project" }) {
+  const [form, setForm] = useState(() => emptyForm(defaultService));
   const [sent, setSent] = useState(false);
 
   const handleChange = (e) =>
@@ -24,7 +25,7 @@ export default function Contact() {
     });
     if (res.ok) {
       setSent(true);
-      setForm(INITIAL_FORM);
+      setForm(emptyForm(defaultService));
       setTimeout(() => setSent(false), 4000);
     }
   };
@@ -34,7 +35,7 @@ export default function Contact() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-16 items-start">
         <div>
           <h2 className="text-3xl lg:text-4xl font-bold text-navy tracking-tight leading-tight mb-4">
-            Tell us about your project
+            {heading}
           </h2>
           <p className="text-ink/75 leading-relaxed mb-8 max-w-md">
             Message us on WhatsApp, call, or fill in the form. We reply within 24

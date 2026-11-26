@@ -11,6 +11,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import AdminApp from "./admin/AdminApp";
 import BlogPost from "./Pages/BlogPost";
+import ServicePage from "./Pages/ServicePage";
 import { WhatsAppIcon } from "./components/Icons";
 import { WHATSAPP_URL } from "./data/constants";
 import { trackClick } from "./lib/analytics";
@@ -57,6 +58,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<MainSite />} />
       <Route path="/blog/:id" element={<BlogPost />} />
+      <Route path="/services/:slug" element={<ServicePage />} />
     </Routes>
   );
 }

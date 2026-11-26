@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { SERVICES, INCLUDES } from "../data/constants";
 
 export default function Services() {
@@ -20,9 +21,22 @@ export default function Services() {
         <div>
           <ul className="divide-y divide-line border-y border-line">
             {SERVICES.map((s) => (
-              <li key={s.name} className="py-6 grid grid-cols-1 sm:grid-cols-[13rem_1fr] gap-1 sm:gap-6">
-                <h3 className="font-semibold text-navy text-lg">{s.name}</h3>
-                <p className="text-ink/75 leading-relaxed">{s.desc}</p>
+              <li key={s.slug}>
+                <Link
+                  to={`/services/${s.slug}`}
+                  className="group py-5 -mx-3 px-3 rounded-md grid grid-cols-[1fr_auto] items-center gap-4 hover:bg-white transition-colors"
+                >
+                  <div>
+                    <h3 className="font-semibold text-navy text-lg group-hover:text-brand-orange-dark transition-colors">
+                      {s.name}
+                    </h3>
+                    <p className="text-ink/70 leading-relaxed mt-0.5">{s.summary}</p>
+                  </div>
+                  <span className="text-sm font-semibold text-navy whitespace-nowrap flex items-center gap-1">
+                    <span className="hidden sm:inline">Details</span>
+                    <span aria-hidden="true" className="text-brand-orange-dark text-lg leading-none">→</span>
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>

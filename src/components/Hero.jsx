@@ -56,8 +56,8 @@ export default function Hero() {
   useEffect(() => { trackVisit(); }, []);
 
   return (
-    <section className="bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-14 pb-16 lg:pt-20 lg:pb-20 grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
+    <section className="bg-white px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto pt-14 pb-16 lg:pt-20 lg:pb-20 grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
         <div>
           <p className="text-muted text-sm mb-4">Web design studio · Accra, Ghana</p>
           <h1 className="text-[2.5rem] leading-[1.08] sm:text-5xl lg:text-[3.5rem] font-bold text-navy tracking-tight mb-6">

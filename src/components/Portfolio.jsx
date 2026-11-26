@@ -19,11 +19,15 @@ function ProjectImage({ item, className = "" }) {
   );
 }
 
+// Links saved without a scheme (e.g. "example.tech") would otherwise be
+// treated as a page on this site.
+const absolute = (url) => (/^https?:\/\//i.test(url) ? url : `https://${url.trim()}`);
+
 function LiveLink({ url }) {
   if (!url) return null;
   return (
     <a
-      href={url}
+      href={absolute(url)}
       target="_blank"
       rel="noreferrer"
       className="inline-block text-brand-orange-dark font-semibold hover:underline underline-offset-4"

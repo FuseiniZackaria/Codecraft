@@ -1,14 +1,41 @@
 -- Run this once in the Supabase SQL Editor.
--- It replaces the old "using (true)" policies, which let anyone with the
--- public anon key edit or delete content, with:
---   * the public can read published content (and log analytics events)
---   * only signed-in users (your admin account) can create, edit or delete
 --
--- IMPORTANT: in Supabase go to Authentication -> Sign In / Providers and turn
--- OFF "Allow new users to sign up", otherwise anyone could create an account
--- and count as "authenticated".
+-- This database is shared with another app that lets users sign up, so being
+-- signed in is NOT enough to edit CodeCraft content. Only accounts listed in
+-- public.admin_users count as admins.
+--
+-- Result:
+--   * the public can read published content (and log analytics events)
+--   * only admins can create, edit or delete content, read analytics, or
+--     upload/change/delete images
+--
+-- NOTE: step 3 drops existing policies on the tables analytics, portfolio,
+-- posts and testimonials. If your other app also uses a table with one of
+-- those names, check its policies before running this.
 
--- 1. Drop every existing policy on these tables
+-- 1. Admin list
+create table if not exists public.admin_users (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  created_at timestamp with time zone default now()
+);
+alter table public.admin_users enable row level security;
+-- No policies on admin_users: nobody can read or change it through the API.
+-- You manage it from the SQL Editor (see step 7).
+
+-- 2. Helper the policies (and the admin login screen) use
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (select 1 from public.admin_users where user_id = auth.uid());
+$$;
+revoke all on function public.is_admin() from public;
+grant execute on function public.is_admin() to anon, authenticated;
+
+-- 3. Drop every existing policy on the CodeCraft tables
 do $$
 declare p record;
 begin
@@ -21,31 +48,43 @@ begin
   end loop;
 end $$;
 
--- 2. Analytics: visitors can log events, only the admin can read them
+-- 4. Analytics: anyone can log events, only admins can read them
 alter table analytics enable row level security;
 create policy "Public insert" on analytics for insert to anon, authenticated with check (true);
-create policy "Admin read"    on analytics for select to authenticated using (true);
+create policy "Admin read"    on analytics for select to authenticated using (public.is_admin());
 
--- 3. Portfolio: public read, admin write
+-- 5. Content tables: public read, admin write
 alter table portfolio enable row level security;
 create policy "Public read" on portfolio for select using (true);
-create policy "Admin write" on portfolio for all to authenticated using (true) with check (true);
+create policy "Admin write" on portfolio for all to authenticated
+  using (public.is_admin()) with check (public.is_admin());
 
--- 4. Posts: public sees only published posts, admin sees and edits everything
 alter table posts enable row level security;
-create policy "Public read published" on posts for select to anon using (published = true);
-create policy "Admin all"             on posts for all to authenticated using (true) with check (true);
+create policy "Public read published" on posts for select using (published = true);
+create policy "Admin all"             on posts for all to authenticated
+  using (public.is_admin()) with check (public.is_admin());
 
--- 5. Testimonials: public read, admin write
 alter table testimonials enable row level security;
 create policy "Public read" on testimonials for select using (true);
-create policy "Admin write" on testimonials for all to authenticated using (true) with check (true);
+create policy "Admin write" on testimonials for all to authenticated
+  using (public.is_admin()) with check (public.is_admin());
 
--- 6. Image uploads (storage bucket "images"): only the admin can upload/change/delete.
+-- 6. Storage bucket "images": only admins can upload/change/delete.
 --    Public viewing still works as long as the bucket is marked Public.
 drop policy if exists "Admin upload images" on storage.objects;
 drop policy if exists "Admin update images" on storage.objects;
 drop policy if exists "Admin delete images" on storage.objects;
-create policy "Admin upload images" on storage.objects for insert to authenticated with check (bucket_id = 'images');
-create policy "Admin update images" on storage.objects for update to authenticated using (bucket_id = 'images');
-create policy "Admin delete images" on storage.objects for delete to authenticated using (bucket_id = 'images');
+create policy "Admin upload images" on storage.objects for insert to authenticated
+  with check (bucket_id = 'images' and public.is_admin());
+create policy "Admin update images" on storage.objects for update to authenticated
+  using (bucket_id = 'images' and public.is_admin());
+create policy "Admin delete images" on storage.objects for delete to authenticated
+  using (bucket_id = 'images' and public.is_admin());
+
+-- 7. Make yourself an admin. First create the account in
+--    Authentication -> Users -> Add user (or sign up through your other app),
+--    then replace the email below and run this line:
+--
+-- insert into public.admin_users (user_id)
+-- select id from auth.users where email = 'YOUR_ADMIN_EMAIL'
+-- on conflict do nothing;

@@ -3,7 +3,10 @@ import Login from "./Login";
 import AdminLayout from "./AdminLayout";
 
 function AdminGuard() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, checking } = useAuth();
+  if (checking) {
+    return <div className="min-h-screen bg-[#0d1f3c]" />;
+  }
   return isAuthenticated ? <AdminLayout /> : <Login />;
 }
 

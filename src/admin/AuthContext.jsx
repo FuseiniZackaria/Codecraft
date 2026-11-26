@@ -1,33 +1,42 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 
 const AuthContext = createContext(null);
 
-const ADMIN_PASSWORD = process.env.REACT_APP_ADMIN_PASSWORD;
-
 export function AuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    () => sessionStorage.getItem("cc_admin") === "true"
-  );
+  const [session, setSession] = useState(null);
+  const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
 
-  const login = (password) => {
-    if (password === ADMIN_PASSWORD) {
-      sessionStorage.setItem("cc_admin", "true");
-      setIsAuthenticated(true);
-      setError("");
-      return true;
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setChecking(false);
+    });
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, s) => {
+      setSession(s);
+    });
+    return () => listener.subscription.unsubscribe();
+  }, []);
+
+  const login = async (email, password) => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      setError("Incorrect email or password. Please try again.");
+      return false;
     }
-    setError("Incorrect password. Please try again.");
-    return false;
+    setError("");
+    return true;
   };
 
-  const logout = () => {
-    sessionStorage.removeItem("cc_admin");
-    setIsAuthenticated(false);
+  const logout = async () => {
+    await supabase.auth.signOut();
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, error }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated: !!session, checking, login, logout, error }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "./AuthContext";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { login, error } = useAuth();
@@ -9,8 +10,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 400));
-    login(password);
+    await login(email, password);
     setLoading(false);
   };
 
@@ -36,7 +36,7 @@ export default function Login() {
             Welcome back
           </h1>
           <p className="text-slate-400 text-sm mb-7">
-            Enter your password to continue
+            Sign in to continue
           </p>
 
           {error && (
@@ -48,11 +48,26 @@ export default function Login() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <div>
               <label className="block text-xs font-bold text-[#0d1f3c] uppercase tracking-wider mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                required
+                autoComplete="username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@example.com"
+                className="w-full border-2 border-slate-200 focus:border-[#f26522] rounded-xl px-4 py-3 text-sm outline-none bg-slate-50 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-[#0d1f3c] uppercase tracking-wider mb-2">
                 Password
               </label>
               <input
                 type="password"
                 required
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter admin password"

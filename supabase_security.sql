@@ -69,17 +69,33 @@ create policy "Public read" on testimonials for select using (true);
 create policy "Admin write" on testimonials for all to authenticated
   using (public.is_admin()) with check (public.is_admin());
 
--- 6. Storage bucket "images": only admins can upload/change/delete.
---    Public viewing still works as long as the bucket is marked Public.
+-- 6. Storage bucket "images" (shared with the other app):
+--    * anyone can view (via "Allow public reads" / a Public bucket)
+--    * any signed-in user can upload
+--    * a user can change/delete only the files they uploaded
+--    * CodeCraft admins can change/delete any file
+--    Visitors who are not signed in cannot upload, change or delete.
+--    Also remove the old open rules ("Allow public uploads/updates/deletes" and
+--    the "Give anon users access to JPG images..." INSERT/UPDATE/DELETE rules).
+drop policy if exists "Allow public uploads" on storage.objects;
+drop policy if exists "Allow public updates" on storage.objects;
+drop policy if exists "Allow public deletes" on storage.objects;
+drop policy if exists "Give anon users access to JPG images in folder 1ffg0oo_1" on storage.objects;
+drop policy if exists "Give anon users access to JPG images in folder 1ffg0oo_2" on storage.objects;
+drop policy if exists "Give anon users access to JPG images in folder 1ffg0oo_3" on storage.objects;
 drop policy if exists "Admin upload images" on storage.objects;
 drop policy if exists "Admin update images" on storage.objects;
 drop policy if exists "Admin delete images" on storage.objects;
-create policy "Admin upload images" on storage.objects for insert to authenticated
-  with check (bucket_id = 'images' and public.is_admin());
-create policy "Admin update images" on storage.objects for update to authenticated
-  using (bucket_id = 'images' and public.is_admin());
-create policy "Admin delete images" on storage.objects for delete to authenticated
-  using (bucket_id = 'images' and public.is_admin());
+drop policy if exists "Signed-in upload images" on storage.objects;
+drop policy if exists "Owner or admin update images" on storage.objects;
+drop policy if exists "Owner or admin delete images" on storage.objects;
+
+create policy "Signed-in upload images" on storage.objects for insert to authenticated
+  with check (bucket_id = 'images');
+create policy "Owner or admin update images" on storage.objects for update to authenticated
+  using (bucket_id = 'images' and (owner_id = auth.uid()::text or public.is_admin()));
+create policy "Owner or admin delete images" on storage.objects for delete to authenticated
+  using (bucket_id = 'images' and (owner_id = auth.uid()::text or public.is_admin()));
 
 -- 7. Make yourself an admin. First create the account in
 --    Authentication -> Users -> Add user (or sign up through your other app),

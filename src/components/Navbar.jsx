@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NAV_LINKS } from "../data/constants";
+import Logo from "./Logo";
 
 const toHash = (link) => `/#${link.toLowerCase().replace(" ", "-")}`;
 
@@ -9,13 +10,8 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-line">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
-          <span className="bg-navy text-brand-orange font-bold text-sm px-2 py-1 rounded font-mono">
-            &lt;/&gt;
-          </span>
-          <span className="font-display text-navy font-extrabold text-lg tracking-tight">
-            CODECRAFT
-          </span>
+        <a href="/" aria-label="CodeCraft GH home">
+          <Logo />
         </a>
 
         <ul className="hidden md:flex items-center gap-7">

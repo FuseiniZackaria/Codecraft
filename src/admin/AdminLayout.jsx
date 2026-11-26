@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "./AuthContext";
+import Logo from "../components/Logo";
 import Dashboard from "./Dashboard";
 import PortfolioManager from "./PortfolioManager";
 import BlogManager from "./BlogManager";
@@ -34,10 +35,7 @@ export default function AdminLayout() {
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}>
         {/* Logo */}
         <div className="p-6 border-b border-white/10">
-          <div className="flex items-center gap-2">
-            <span className="bg-[#f26522] text-white font-extrabold text-xs px-2 py-1 rounded font-mono">&lt;/&gt;</span>
-            <span className="text-white font-extrabold tracking-tight">CODECRAFT</span>
-          </div>
+          <Logo onDark size="sm" />
           <p className="text-white/40 text-xs mt-1">Admin Panel</p>
         </div>
 

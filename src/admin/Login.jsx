@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "./AuthContext";
+import Logo from "../components/Logo";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -19,14 +20,7 @@ export default function Login() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <span className="bg-[#f26522] text-white font-extrabold text-sm px-2 py-1 rounded-md font-mono">
-              &lt;/&gt;
-            </span>
-            <span className="text-white font-extrabold text-xl tracking-tight">
-              CODECRAFT
-            </span>
-          </div>
+          <Logo onDark size="lg" className="mb-4" />
           <p className="text-white/50 text-sm">Admin Dashboard</p>
         </div>
 

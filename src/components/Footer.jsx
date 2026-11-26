@@ -1,3 +1,4 @@
+import Logo from "./Logo";
 import { FacebookIcon, InstagramIcon, XIcon, LinkedInIcon, TikTokIcon } from "./Icons";
 
 const SOCIALS = [
@@ -13,13 +14,8 @@ export default function Footer() {
     <footer className="bg-navy-dark text-white px-4 sm:px-6 py-10">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="bg-brand-orange text-white font-bold text-sm px-2 py-1 rounded font-mono">
-              &lt;/&gt;
-            </span>
-            <span className="font-display font-extrabold text-lg tracking-tight">CODECRAFT</span>
-          </div>
-          <p className="text-white/55 text-sm">© 2026 CodeCraft · Accra, Ghana</p>
+          <Logo onDark className="mb-3" />
+          <p className="text-white/55 text-sm">© 2026 CodeCraft GH · Accra, Ghana</p>
         </div>
 
         <ul className="flex items-center gap-2">

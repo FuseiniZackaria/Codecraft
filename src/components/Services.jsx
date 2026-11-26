@@ -1,50 +1,43 @@
-import { SERVICES } from "../data/constants";
-import Reveal from "./Reveal";
+import { SERVICES, INCLUDES } from "../data/constants";
 
 export default function Services() {
   return (
-    <section id="services" className="bg-slate-50 py-24 px-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <Reveal>
-            <span className="inline-block bg-[#0d1f3c] text-white text-xs font-bold tracking-widest uppercase px-4 py-2 rounded mb-4">
-              Our Services
-            </span>
-          </Reveal>
-          <Reveal delay={100}>
-            <h2 className="text-4xl lg:text-5xl font-extrabold text-[#0d1f3c] tracking-tight leading-tight mb-4">
-              Everything your business
-              <br />
-              <span className="text-[#f26522]">needs online</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={200}>
-            <p className="text-slate-500 text-base max-w-md mx-auto leading-relaxed">
-              From a simple landing page to a full e-commerce store — we build
-              it right the first time.
-            </p>
-          </Reveal>
+    <section id="services" className="bg-paper border-y border-line py-20 lg:py-24 px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-10 lg:gap-16">
+        <div className="lg:sticky lg:top-24 self-start">
+          <h2 className="text-3xl lg:text-4xl font-bold text-navy tracking-tight leading-tight mb-4">
+            What we build
+          </h2>
+          <p className="text-ink/75 leading-relaxed mb-6">
+            From a one-page site to a full online store. If what you need is not on
+            this list, ask anyway. We will tell you honestly whether we can build it.
+          </p>
+          <a href="#contact" className="text-brand-orange-dark font-semibold hover:underline underline-offset-4">
+            Ask about your project
+          </a>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES.map((service, i) => (
-            <Reveal key={service.name} delay={i * 80}>
-              <div className="group bg-white border border-slate-200 rounded-2xl p-8 hover:-translate-y-2 hover:shadow-xl hover:border-[#f26522] transition-all duration-300 relative overflow-hidden cursor-default h-full">
-                <div className="absolute top-0 left-0 w-1 h-0 bg-[#f26522] group-hover:h-16 transition-all duration-300 rounded-b" />
-                <div className="w-12 h-12 bg-orange-50 group-hover:bg-[#f26522] rounded-xl flex items-center justify-center text-xl mb-5 transition-colors duration-300">
-                  {service.icon}
+        <div>
+          <ul className="divide-y divide-line border-y border-line">
+            {SERVICES.map((s) => (
+              <li key={s.name} className="py-6 grid grid-cols-1 sm:grid-cols-[13rem_1fr] gap-1 sm:gap-6">
+                <h3 className="font-semibold text-navy text-lg">{s.name}</h3>
+                <p className="text-ink/75 leading-relaxed">{s.desc}</p>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-12">
+            <h3 className="text-xl font-bold text-navy mb-5">Every site includes</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+              {INCLUDES.map((item) => (
+                <div key={item.title} className="border-l-2 border-brand-orange pl-4">
+                  <p className="font-semibold text-navy mb-1">{item.title}</p>
+                  <p className="text-ink/70 text-[15px] leading-relaxed">{item.desc}</p>
                 </div>
-                <h3 className="text-[#0d1f3c] font-bold text-lg mb-3 tracking-tight">
-                  {service.name}
-                </h3>
-                <p className="text-slate-500 text-sm leading-relaxed">
-                  {service.desc}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

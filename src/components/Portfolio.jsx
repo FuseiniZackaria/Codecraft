@@ -1,6 +1,37 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
-import Reveal from "./Reveal";
+
+function ProjectImage({ item, className = "" }) {
+  if (item.image_url) {
+    return (
+      <img
+        src={item.image_url}
+        alt={`Screenshot of ${item.title}`}
+        loading="lazy"
+        className={`w-full h-full object-cover object-top ${className}`}
+      />
+    );
+  }
+  return (
+    <div className={`w-full h-full bg-paper flex items-center justify-center text-muted text-sm ${className}`}>
+      No screenshot yet
+    </div>
+  );
+}
+
+function LiveLink({ url }) {
+  if (!url) return null;
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className="inline-block text-brand-orange-dark font-semibold hover:underline underline-offset-4"
+    >
+      Visit the live site ↗
+    </a>
+  );
+}
 
 export default function Portfolio() {
   const [items, setItems] = useState([]);
@@ -21,71 +52,66 @@ export default function Portfolio() {
   if (loading) return null;
   if (items.length === 0) return null;
 
+  const featured = items.slice(0, 3);
+  const rest = items.slice(3);
+
   return (
-    <section id="portfolio" className="bg-white py-24 px-6">
+    <section id="portfolio" className="bg-white py-20 lg:py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <Reveal>
-            <span className="inline-block bg-[#0d1f3c] text-white text-xs font-bold tracking-widest uppercase px-4 py-2 rounded mb-4">
-              Our Work
-            </span>
-          </Reveal>
-          <Reveal delay={100}>
-            <h2 className="text-4xl lg:text-5xl font-extrabold text-[#0d1f3c] tracking-tight leading-tight mb-4">
-              Projects we've <span className="text-[#f26522]">built</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={200}>
-            <p className="text-slate-500 text-base max-w-md mx-auto leading-relaxed">
-              Real websites delivered for real businesses. Here's a sample of
-              our work.
-            </p>
-          </Reveal>
+        <div className="max-w-2xl mb-14">
+          <h2 className="text-3xl lg:text-4xl font-bold text-navy tracking-tight leading-tight mb-3">
+            Recent work
+          </h2>
+          <p className="text-ink/75 leading-relaxed">
+            Websites we have built for real businesses.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((item, i) => (
-            <Reveal key={item.id} delay={i * 80}>
-              <div className="group bg-white border border-slate-200 rounded-2xl overflow-hidden hover:-translate-y-2 hover:shadow-xl hover:border-[#f26522] transition-all duration-300">
-                {/* Image */}
-                <div className="h-48 bg-slate-100 overflow-hidden">
-                  {item.image_url ? (
-                    <img
-                      src={item.image_url}
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-5xl">
-                      🖥️
-                    </div>
-                  )}
-                </div>
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-[#0d1f3c] font-bold text-lg mb-2 leading-tight">
-                    {item.title}
-                  </h3>
-                  {item.description && (
-                    <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
-                      {item.description}
-                    </p>
-                  )}
-                  {item.live_url && (
-                    <a
-                      href={item.live_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 bg-[#f26522] hover:bg-[#ff7a35] text-white text-xs font-bold px-4 py-2 rounded-full transition-all"
-                    >
-                      View Live ↗
-                    </a>
-                  )}
-                </div>
+        <div className="flex flex-col gap-16 lg:gap-20">
+          {featured.map((item, i) => (
+            <article
+              key={item.id}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center"
+            >
+              <div
+                className={`lg:col-span-7 aspect-[16/10] rounded-lg overflow-hidden border border-line ${
+                  i % 2 === 1 ? "lg:order-2" : ""
+                }`}
+              >
+                <ProjectImage item={item} />
               </div>
-            </Reveal>
+              <div className={`lg:col-span-5 ${i % 2 === 1 ? "lg:order-1" : ""}`}>
+                <h3 className="text-2xl font-bold text-navy tracking-tight mb-3">{item.title}</h3>
+                {item.description && (
+                  <p className="text-ink/75 leading-relaxed mb-5">{item.description}</p>
+                )}
+                <LiveLink url={item.live_url} />
+              </div>
+            </article>
           ))}
         </div>
+
+        {rest.length > 0 && (
+          <div className="mt-20">
+            <h3 className="text-lg font-bold text-navy mb-4">More projects</h3>
+            <ul className="divide-y divide-line border-y border-line">
+              {rest.map((item) => (
+                <li key={item.id} className="py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+                  <div className="w-full sm:w-28 aspect-[16/10] rounded overflow-hidden border border-line flex-shrink-0">
+                    <ProjectImage item={item} className="text-xs" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-navy">{item.title}</p>
+                    {item.description && (
+                      <p className="text-ink/70 text-[15px] line-clamp-1">{item.description}</p>
+                    )}
+                  </div>
+                  <LiveLink url={item.live_url} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </section>
   );

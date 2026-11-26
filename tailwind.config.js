@@ -11,20 +11,16 @@ module.exports = {
         },
         brand: {
           orange: "#f26522",
-          "orange-hover": "#ff7a35",
+          "orange-dark": "#d4541a",
         },
+        ink: "#1f2328",
+        muted: "#6b6560",
+        paper: "#faf8f5",
+        line: "#e7e2da",
       },
       fontFamily: {
-        sans: ["Plus Jakarta Sans", "sans-serif"],
-      },
-      keyframes: {
-        fadeUp: {
-          from: { opacity: "0", transform: "translateY(20px)" },
-          to: { opacity: "1", transform: "translateY(0)" },
-        },
-      },
-      animation: {
-        fadeUp: "fadeUp 0.7s ease both",
+        sans: ["IBM Plex Sans", "system-ui", "sans-serif"],
+        display: ["Schibsted Grotesk", "IBM Plex Sans", "sans-serif"],
       },
     },
   },

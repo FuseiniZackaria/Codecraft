@@ -1,98 +1,85 @@
-export const NAV_LINKS = ["Services","Portfolio", "Why Us", "Process", "Blog", "Contact"];
+export const NAV_LINKS = ["Services", "Portfolio", "Process", "Blog", "Contact"];
 
+// Service names are also the options in the contact form, so keep them stable.
 export const SERVICES = [
   {
-    icon: "🖥️",
     name: "Business Websites",
-    desc: "Professional websites that represent your brand and turn visitors into customers. Fast, secure, and mobile-ready.",
+    desc: "A site that says who you are, what you sell and how to reach you, with a WhatsApp button so customers can message you straight from their phone.",
   },
   {
-    icon: "🛒",
     name: "E-commerce Stores",
-    desc: "Full-featured online stores with payment integration, product management, and seamless checkout.",
+    desc: "An online shop with your products, prices and online payment, and a simple way for you to add and change products yourself.",
   },
   {
-    icon: "💼",
     name: "Portfolio Websites",
-    desc: "Showcase your work and skills with a beautiful, high-impact portfolio that gets you noticed.",
+    desc: "A clean site that shows your work, your past projects and how to contact you.",
   },
   {
-    icon: "🚀",
     name: "Landing Pages",
-    desc: "High-converting landing pages designed to drive sign-ups, leads, and sales for your campaigns.",
+    desc: "One page for one product or campaign, with one clear action: call, sign up or buy.",
   },
   {
-    icon: "✏️",
     name: "Website Redesign",
-    desc: "Breathe new life into an outdated site. We modernize design, speed, and user experience.",
+    desc: "Already have a site that is slow or hard to use on a phone? We rebuild it so it loads quickly and works properly.",
   },
   {
-    icon: "🔍",
     name: "SEO Optimization",
-    desc: "Rank higher on Google and bring in organic traffic. Technical SEO done right, every time.",
+    desc: "We set up what Google looks at, such as page titles, descriptions, speed and structure, so people searching for what you sell can find you.",
   },
 ];
 
-export const WHY_POINTS = [
+export const INCLUDES = [
   {
-    icon: "⚡",
-    title: "Lightning-Fast Load Times",
-    desc: "Every asset optimized so your site loads in under 2 seconds — every time.",
+    title: "Built for phones first",
+    desc: "Most of your customers will visit from a phone, so we design for that screen first.",
   },
   {
-    icon: "📱",
-    title: "Mobile-First Design",
-    desc: "Over 60% of web traffic is mobile. Every site we build looks perfect on any screen.",
+    title: "Quick to load",
+    desc: "Compressed images and lean code, so pages open quickly even on mobile data.",
   },
   {
-    icon: "🔒",
-    title: "Secure & Reliable",
-    desc: "SSL, secure hosting, and regular backups — your site stays safe and online 24/7.",
+    title: "Secure, with backups",
+    desc: "HTTPS (the padlock in the browser), secure hosting and regular backups.",
   },
   {
-    icon: "🎯",
-    title: "Built to Convert",
-    desc: "Clear CTAs, strategic layouts, and conversion psychology in every design decision.",
+    title: "A clear next step",
+    desc: "Every page tells the visitor what to do next: call, send a WhatsApp message or buy.",
   },
 ];
 
 export const STATS = [
-  { val: "100+", label: "Projects Delivered" },
-  { val: "98%", label: "Client Satisfaction" },
-  { val: "3x", label: "Avg. Conversion Lift" },
-  { val: "24h", label: "Response Time" },
+  { val: "100+", label: "Projects delivered" },
+  { val: "98%", label: "Client satisfaction" },
+  { val: "3x", label: "Average conversion lift" },
+  { val: "24h", label: "Response time" },
 ];
 
 export const PROCESS = [
   {
-    num: "1",
-    title: "Discovery",
-    desc: "We learn about your business, goals, and audience to plan the perfect site.",
+    num: "01",
+    title: "Talk",
+    desc: "We talk on WhatsApp or a call about your business, your customers and what the site needs to do.",
   },
   {
-    num: "2",
+    num: "02",
     title: "Design",
-    desc: "You approve a custom mockup before we write a single line of code.",
+    desc: "You see and approve the design before we write any code.",
   },
   {
-    num: "3",
+    num: "03",
     title: "Build",
-    desc: "Clean, fast, SEO-ready code. Tested on every device and browser.",
+    desc: "We build it, then test it on phones and laptops in different browsers.",
   },
   {
-    num: "4",
+    num: "04",
     title: "Launch",
-    desc: "We deploy, hand over everything, and provide post-launch support.",
+    desc: "We put it live, hand everything over to you, and stay available for support after launch.",
   },
 ];
 
-export const TRUST_BADGES = [
-  { icon: "🛡", label: "Secure & Reliable" },
-  { icon: "⚡", label: "Fast Delivery" },
-  { icon: "📈", label: "Results Driven" },
-];
+export const WHATSAPP_URL = "https://wa.me/233202457446";
 
 export const CONTACT_METHODS = [
-  { icon: "📱", label: "WhatsApp", value: "0202457446", href: "https://wa.me/233202457446" },
-  { icon: "📞", label: "Call / SMS", value: "0549440550", href: "tel:+233549440550" },
+  { type: "whatsapp", label: "WhatsApp", value: "020 245 7446", href: WHATSAPP_URL },
+  { type: "phone", label: "Call or SMS", value: "054 944 0550", href: "tel:+233549440550" },
 ];

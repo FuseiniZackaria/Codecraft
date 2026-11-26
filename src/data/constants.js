@@ -1,4 +1,11 @@
-export const NAV_LINKS = ["Services", "Portfolio", "Process", "Blog", "Contact"];
+export const NAV_LINKS = [
+  { label: "Services", href: "/#services" },
+  { label: "Portfolio", href: "/#portfolio" },
+  { label: "Products", href: "/products" },
+  { label: "Process", href: "/#process" },
+  { label: "Blog", href: "/#blog" },
+  { label: "Contact", href: "/#contact" },
+];
 
 // Service names are also the options in the contact form, so keep them stable.
 // Each service has its own page at /services/<slug>.

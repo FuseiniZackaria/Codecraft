@@ -50,7 +50,7 @@ npm install
 
 ### 2. Set up Supabase
 1. Go to https://supabase.com and create a project
-2. Open the **SQL Editor** and run `supabase_setup.sql`, then `supabase_security.sql`
+2. Open the **SQL Editor** and run `supabase_setup.sql`, then `supabase_security.sql`, then `supabase_products.sql`
 3. Go to **Settings → API** and copy your URL and anon key
 4. Go to **Authentication → Users → Add user** and create your admin account (email + password)
 5. Add that account to the admin list by running the `insert into public.admin_users ...` line at the bottom of `supabase_security.sql` with your email. Only accounts on this list can use the admin dashboard, so public sign-ups (used by other apps on the same project) can stay on.

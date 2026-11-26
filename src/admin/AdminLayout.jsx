@@ -5,6 +5,7 @@ import Dashboard from "./Dashboard";
 import PortfolioManager from "./PortfolioManager";
 import BlogManager from "./BlogManager";
 import TestimonialsManager from "./TestimonialsManager";
+import ProductsManager from "./ProductsManager";
 
 
 const NAV = [
@@ -12,6 +13,7 @@ const NAV = [
   { key: "portfolio", label: "Portfolio", icon: "🖼" },
   { key: "blog", label: "Blog Posts", icon: "📝" },
   { key: "testimonials", label: "Testimonials", icon: "💬" },
+  { key: "products", label: "Products", icon: "🛍" },
 ];
 
 export default function AdminLayout() {
@@ -24,6 +26,7 @@ export default function AdminLayout() {
       case "portfolio": return <PortfolioManager />;
       case "blog": return <BlogManager />;
       case "testimonials": return <TestimonialsManager />;
+      case "products": return <ProductsManager />;
       default: return <Dashboard setPage={setPage} />;
     }
   };
